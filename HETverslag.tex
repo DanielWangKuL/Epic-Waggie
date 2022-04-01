@@ -1,6 +1,9 @@
 \documentclass[kulak]{kulakarticle} % options: kulak (default) or kul
 
 \usepackage[dutch]{babel}
+\usepackage{hyperref}
+\usepackage{mhchem}
+\usepackage{pdfpages}
 
 \title{Teamopdracht: verslag}
 \author{Team 3}
@@ -14,9 +17,11 @@
 
 \maketitle
 
+\tableofcontents
+
 \section*{Inleiding}
-Voor het vak Probleemoplossen en ontwerpen deel twee, kregen we de opdracht om een wagentje te bouwen. Concreet hield dit in dat we een wagentje moesten maken dat een lijn op straat kan volgen, aan een stopstreep kan stoppen, een verkeerslicht kan interpreteren en indien deze groen is, verder kan rijden. Het wagentje moest ook kunnen stoppen voor eventuele obstakels op de weg. Het doel is dus om dit allemaal te programmeren, zodat het wagentje een voorgeprogrameerd traject foutloos kan afleggen en we het eventueel vanop afstand met behulp van WiFi verbinding manueel kunnen bijsturen.
-In dit verslag zullen we ons ontwerpproces bijhouden, onze implementatie methode uitleggen, onze resultaten die we bereikt hebben en ook onze problemen die we onderweg ondervonden, uitleggen. 
+Voor het vak Probleemoplossen en ontwerpen deel twee, kregen we de opdracht om een wagentje te bouwen. Concreet hield dit in dat we een wagentje moesten maken dat een lijn op straat kan volgen, aan een stopstreep kan stoppen, een verkeerslicht kan interpreteren en indien dit groen is, verder kan rijden. Het wagentje moet ook kunnen stoppen voor eventuele obstakels op de weg. Het doel is dus om dit allemaal te programmeren, zodat het wagentje een voorgeprogrammeerd traject foutloos kan afleggen en we het eventueel vanop afstand met behulp van WiFi verbinding manueel kunnen bijsturen.
+In dit verslag zullen we ons ontwerpproces bijhouden, onze implementatiemethode uitleggen, onze resultaten die we bereikt hebben en ook onze problemen die we onderweg ondervonden bespreken. 
 
 % Probleemstelling, Doel, Wat komt er in dit verslag aan bod?
 % De Epic-waggie is het wagentje dat we dit semester voor het vak Probleemoplossen en ontwerpen deel 2 hebben moeten construeren. Concreet moest het wagentje perfect kunnen rijden in een Smart City waarbij het een straat kan volgen, obstakels ontwijkt en aan kruispunten, afhankelijk van de lichten, zal moeten reageren. 
@@ -29,12 +34,13 @@ In dit verslag zullen we ons ontwerpproces bijhouden, onze implementatie methode
 \section{Ontwerpproces}
 \subsection{Onderdelen}
 
-Een belangrijk deel van het ontwerp, zijn natuurlijk de onderdelen. We hebben eerst en vooral zorgvuldig besproken voor welke vorm en welk ontwerp onze wagen ging krijgen en welke onderdelen hierbij het best passen. We kozen voor een wagentje met twee voorwielen en een ballcaster achteraan, wat de mobiliteit bij het draaien verhoogd. Voor dit project hadden we ook verschillende sensoren nodig. Hierbij kozen we voor de TCS34725 Kleur sensor BOB die het kleur van het verkeerslicht zal detecteren, de QTR-8A analoge reflectie sensor array die de te volgen lijn op de straat zal detecteren en de Optische Afstandssensor die ervoor zal zorgen dat we obstakels kunnen detecteren. Daarnaast hadden we ook nog standaard onderdelen nodig zoals de Micro Metal Gear Motor 100:1, Oplaadbare LITHIUM-ION batterijen en twee Motorschield IC. Het belangrijkste onderdeel van ons ontwerp is natuurlijk de microcontroller. Wij kozen voor de NI MyRio microcontroller omdat het direct kan interageren met LABVIEW en we dus alles daarin kunnen programmeren. Daarnaast is NI MyRio gemaakt voor ingenieursprojecten en leek het ons de beste oplossing naast Arduino en Rasphberry Pi.  
+Een belangrijk deel van het ontwerp, zijn natuurlijk de onderdelen. We hebben eerst en vooral zorgvuldig besproken welk ontwerp onze wagen ging krijgen en welke onderdelen hierbij het best passen. We kozen voor een wagentje met twee voorwielen en een ballcaster achteraan, wat de mobiliteit bij het draaien verhoogt. Voor dit project hadden we ook verschillende sensoren nodig. Hierbij kozen we voor de TCS34725 Kleur sensor BOB die het kleur van het verkeerslicht zal detecteren, de QTR-8A analoge reflectie sensor array die de te volgen lijn op de straat zal detecteren en de Optische Afstandssensor die ervoor zal zorgen dat we obstakels kunnen detecteren. Daarnaast hadden we ook nog standaard onderdelen nodig zoals de Micro Metal Gear Motor 100:1, Oplaadbare LITHIUM-ION batterijen en een Motorschield IC. Het belangrijkste onderdeel van ons ontwerp is natuurlijk de microcontroller. Wij kozen voor de NI MyRio microcontroller omdat het direct kan interageren met LABVIEW en we dus alles daarin kunnen programmeren. Daarnaast is NI MyRio specifiek gemaakt voor ingenieursprojecten en leek het ons de beste oplossing naast Arduino en Raspberry Pi.  
 
 
 Een tweede deel van de opdracht was het kiezen van een individuele touch voor het wagentje. Men kon kiezen voor verschillende moeilijkheidsgraden, met bijhorende opdrachten. Wij kozen initieel voor een medium opdracht, namelijk het maken van onze eigen chassis om het dan te laten 3D printen. Hierdoor kon de chassis ons model met de twee wielen en de ballcaster complementeren en konden we ons ontwerp van het wagentje volledig naar ons zin aanpassen. Daarnaast konden we ons zo beter aanpassen aan de grootte van de NI MyRio die namelijk een groot deel van onze chassis inpakt. Achteraf, zijn we nog veranderd van keuze van opdracht. We konden namelijk voor de moeilijkste moeilijkheidsgraad kiezen, waarbij je heel de wagen zonder makerbeams moet maken. 
 
 Hieronder nog een overzicht van de onderdelen:
+\begin{multicols}{2}
 \begin{itemize}
 	% reden nog bij noteren???
 	\item Micro Metal Gear Motor 100:1
@@ -53,8 +59,10 @@ Hieronder nog een overzicht van de onderdelen:
 	\item Male headers 10
 \end{itemize}
 
+\end{multicols}
+
 \subsection{Chassis}
-Aangezien we dus besloten hebben om onze eigen chassis te maken, was het ontwerp hiervan heel belangrijk. Alle gaten moesten precies op de juiste plek zitten om al onze onderdelen te kunnen bevestigen. Daardoor hebben we veel verschillende modellen gemaakt om te zien wat het ideaalste model zou zijn voor onze onderdelen met onder andere de NI MyRio. Deze heeft namelijk de afmetingen 136,6 mm op 88,6 mm. Dit is relatief groot in vergelijking met de andere onderdelen. Hierdoor neemt de NI MyRio ook het meeste plaats in op onze chassis. We hebben ervoor gekozen om deze tussen de wielen te leggen. Hierdoor is de totale breedte van onze chassis 165 mm zonder wielen of 210 mm met de wielen. Daarnaast moesten we ook plaats maken voor de twee batterijen. Deze hebben we net achter de NI MyRio geplaatst. Om de grootte van de chassis wat te beperken, hebben we gekozen om de printplaat in de hoogte boven de batterijen te plaatsen en twee houdertjes daarvoor bij te printen. Aangezien de ballcaster kleiner is dan de wielen, hebben we nog een klein stukje moeten toevoegen onder onze chassis zodat deze recht zou liggen. De reflectiesensor en de afstandssensor zijn beide aan de voorkant van de chassis bevestigd. We gaan nog een extra onderdeel printen dat we vooraan kunnen bevestigen zodat de reflectiesensor op 2,5 mm van de grond naar beneden gericht ligt. Deze afstand is specifiek gekozen, om het beste resultaat te bekomen. Ook de afstandssensor is aan dit extra onderdeel bevestigd, maar dan gericht naar voor. Het was niet mogelijk om dit aan de chassis te printen omdat we anders te veel support nodig zouden hebben en dat veel zou kosten. De kleursensor wordt rechts vooraan aan de chassis bevestigd. De lichten staan namelijk rechts van de baan en moeten dus op een heel kleine afstand gedetecteerd worden. We hebben dus ook hiervoor een extra onderdeel moeten printen, zodat hij zeker dicht genoeg bij het verkeerslicht zou staan. De overige gaten die in onze chassis aanwezig zijn, zijn er voor besparing aangezien het 7 eenheden voor 1 meter filament is en we ons budget in de gaten moeten houden. 
+Aangezien we besloten hebben om onze eigen chassis te maken, was het ontwerp hiervan heel belangrijk. Alle gaten moesten precies op de juiste plek zitten om al onze onderdelen te kunnen bevestigen. Daardoor hebben we veel verschillende modellen gemaakt om te zien wat het meest ideale model zou zijn voor onze onderdelen met onder andere de NI MyRio. Deze heeft namelijk de afmetingen 136,6 mm op 88,6 mm. Dit is relatief groot in vergelijking met de andere onderdelen. Hierdoor neemt de NI MyRio ook het meeste plaats in op onze chassis. We hebben ervoor gekozen om deze tussen de wielen te leggen. Hierdoor is de totale breedte van onze chassis 165 mm zonder wielen of 210 mm met de wielen. Daarnaast moesten we ook plaats maken voor de twee batterijen. Deze hebben we net achter de NI MyRio geplaatst. Om de grootte van de chassis wat te beperken, hebben we gekozen om de printplaat in de hoogte boven de batterijen te plaatsen en twee houdertjes daarvoor bij te printen. Aangezien de ballcaster kleiner is dan de wielen, moesten we nog een klein stukje toevoegen onder onze chassis zodat deze niet scheef zou liggen. De reflectiesensor en de afstandssensor zijn beide aan de voorkant van de chassis bevestigd. We gaan nog een extra onderdeel printen dat we vooraan kunnen bevestigen zodat de reflectiesensor op 2 mm van de grond naar beneden gericht ligt. Deze afstand is specifiek gekozen, om het beste resultaat te bekomen. Ook de afstandssensor is aan dit extra onderdeel bevestigd, maar dan gericht naar voor. Het was niet mogelijk om dit aan de chassis te printen omdat we anders te veel support nodig zouden hebben en dat veel zou kosten. De kleursensor wordt rechts vooraan aan de chassis bevestigd. De lichten staan namelijk rechts van de baan en moeten dus op een heel kleine afstand gedetecteerd worden. We hebben dus ook hiervoor een extra onderdeel moeten printen, zodat hij zeker dicht genoeg bij het verkeerslicht zou staan. De overige gaten die in onze chassis aanwezig zijn, zijn er voor besparing aangezien het 7 eenheden voor 1 meter filament is en we ons budget in de gaten moeten houden. 
 %\begin{figure}[h]
 %	\centering
 %	\includegraphics[width=\textwidth]{FotoChassisVerslag (1)}
@@ -63,13 +71,13 @@ Aangezien we dus besloten hebben om onze eigen chassis te maken, was het ontwerp
 %\end{figure}
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=.7\textwidth]{FotoChassisVerslag (2)}
+	\includegraphics[width=.8\textwidth]{ChassisDEF}
 	\caption{CAD model}
 	\label{fig:chassis2}
 \end{figure}
 
 \subsection{Implementatie in Labview}
-Aangezien de NI MyRio onze microcontroller is, moesten we al onze onderdelen in LABVIEW programmeren. Hieronder wordt er meer uitleg gegeven over de verschillende onderdelen, namelijk de reflectiesensor, de kleursensor, de afstandssensor en de motoren.
+Aangezien de NI MyRio onze microcontroller is, moeten we al onze onderdelen in LABVIEW programmeren. Hieronder wordt er meer uitleg gegeven over de verschillende onderdelen, namelijk de reflectiesensor, de kleursensor, de afstandssensor en de motoren.
 % Momenteel zijn we nog vollop bezig met het implementeren van de code voor de verschillende onderdelen en commando's in LABVIEW. We hebben ondertussen wel al de lijnsensor grotendeels geïmplementeerd, waar verder nog uitleg over wordt gegeven.
 \subsubsection{Reflectiesensor}
 De lijnsensor geeft als input een array van 8 analoge spanningen tussen 0V en 5V. Deze moet worden omgezet naar een array met 8 waarden die ofwel 0 ofwel 1 zijn. 0 wil zeggen dat de sensor de lijn niet detecteert en komt overeen met een inputwaarde tussen 0V en 3.3V. Daarnaast kan de sensor bij 1 wel de lijn zien en dit komt overeen met een inputwaarde tussen 3.3V en 5V. Eenmaal de nieuwe array is bepaald, moet deze worden omgezet naar besturing van de wagen. 
@@ -77,7 +85,7 @@ De waarden worden nu één voor één gecontroleerd op een 1 of een 0, maar er w
 Daarnaast kan het ook zijn dat de array alleen enen bevat. Dit wil zeggen dat het wagentje op de stopstreep staat (want alle acht sensoren detecteren de lijn). Hiervoor is een apart geval nodig die eerst controleert of alle elementen in de array 1 zijn. Als dit het geval is, zal het wagentje onmiddellijk stoppen. Zo niet dan zal de wagen worden bijgestuurd via de berekende waarde. Dit is nodig omdat bij een array van alleen maar 1’en de berekende waarde gelijk is aan nul (7-7x1) net zoals wanneer het wagentje perfect op de lijn rijdt. Bijgevolg zal het wagentje dan niks doen.
 %De analoge reflectiesensor moet geprogrammeerd worden zodat het een lijn kan volgen. Dit kan met behulp van acht sensoren. We hebben het zo geprogrammeerd dat we alle sensoren van buiten naar binnen overlopen om te kijken of de sensor een lijn al dan niet detecteerd. Vanaf dat een sensor de lijn ziet, zal het een numerieke waarde geven. Hoe meer de sensor naar binnen ligt, hoe kleiner deze waarde zal zijn. Dit wil namelijk zeggen dat de wagen minder op de rand van de lijn aan het rijden is. Als de sensor over het midden begint waar te nemen, zal het cijfer echter negatief worden. Op die manier krijgen we een indicatie van de kant waar de wagen rijdt en hoe sterk hij van het midden afwijkt. Op die manier kunnen we de wagen dan bijsturen, namelijk hoe verder van de lijn, hoe positiever/negatiever de waarde en hoe meer de wagen bijgestuurd moet worden. Bij het herkennen van de stoplijn zullen alle acht sensoren de streep detecteren en zullen we zo de wagen kunnen bijsturen tot stoppen.
 \subsubsection{Kleursensor}
-Via de input van de kleursensor kunnen we bepalen welke kleur het licht uitschijnt. Als de waarde van de weerstand rond 1000 Ohm zit, detecteert de sensor rood, indien de waarde rond 560 Ohm zit, detecteert de sensor groen licht. Bij rood licht zal de wagen blijven wachten tot het licht op groen springt. Zolang de sensor rood aanduidt, zal de input steeds opnieuw worden gecontroleerd. Vanaf het licht groen wordt, zal het wagentje vertrekken door de waarden voor de motor niet meer op nul te zetten, maar op een hoger voltage.
+Via de input van de kleursensor kunnen we bepalen welk kleur het licht uitschijnt. Als de waarde van de weerstand rond 1000 Ohm zit, detecteert de sensor rood, indien de waarde rond 560 Ohm zit, detecteert de sensor groen licht. Bij rood licht zal de wagen blijven wachten tot het licht op groen springt. Zolang de sensor rood aanduidt, zal de input steeds opnieuw worden gecontroleerd. Vanaf het licht groen wordt, zal het wagentje vertrekken door de waarden voor de motor niet meer op nul te zetten, maar op een hoger voltage.
 %Als de waarde tussen … zit, detecteert de sensor rood, indien de waarde tussen … zit, detecteert de wagen groen licht.
 \subsubsection{Afstandssensor}
 Deze sensor detecteert objecten tussen 2cm en 10cm. Als een object zich dichter dan 10 cm (en verder dan 2cm) bevindt, stopt de wagen onmiddellijk. Dit wil zeggen dat de waarden van de motor op dit moment 0 volt zijn.
@@ -85,9 +93,10 @@ Deze sensor detecteert objecten tussen 2cm en 10cm. Als een object zich dichter 
 \subsubsection{Motoren}
 De motoren zullen we individueel moeten kunnen aansturen, zodat we het wagentje  kunnen bijsturen indien het niet recht rijdt of een bocht moet maken. We zullen dit doen door eerst en vooral de positie van het wagentje te bepalen. Dan zullen we de snelheid met behulp van de frequentie instellen, de output dan weergeven en daarna de nieuwe richting weer instellen via de input, gegeven door de lijnsensor. 
 \subsection{Toekomstige doelen}
-(wat er nog verbeterd kan worden - met planning voor extra berekeningen)
-\subsubsection{Planning} % anders noemen eerder we zouden nog dan en dan dat doen
-(welke stappen zouden we nog ondernemen (indien meer tijd) om ons resultaat te verbeteren)
+De komende weken moeten we de programma's van de verschillende sensoren afwerken en ook het overkoepelde programma schrijven. Het wagentje moet volledig in elkaar gestoken worden en indien er fouten zijn, moeten deze aangepast worden en herprint worden. Alle circuits moeten uitgetest worden en volledig uitgeschreven worden. De draaibeweginen moeten nog berekend worden. 
+%(wat er nog verbeterd kan worden - met planning voor extra berekeningen)
+%\subsubsection{Planning} % anders noemen eerder we zouden nog dan en dan dat doen
+%(welke stappen zouden we nog ondernemen (indien meer tijd) om ons resultaat te verbeteren)
 
 
 \subsection{Planning}
@@ -95,40 +104,36 @@ De motoren zullen we individueel moeten kunnen aansturen, zodat we het wagentje 
 	& Taak & Datum \\ \hline
 	1 & Code & \\
 	1.1 & Richting kiezen & \\
-	1.1.1 & Motoren aansturen & \\
+	1.1.1 & Motoren aansturen & 1/04 \\
 	1.2 & Lijndetectie & 25/03 \\
-	1.2.1 & Reflectie sensor inlezen & 25/03\\
-	1.2.2 & Reflectie sensor interpreteren & 25/03 \\
+	1.2.1 & Reflectiesensor inlezen & 25/03\\
+	1.2.2 & Reflectiesensor interpreteren & 25/03 \\
 	1.3 & Obstakels detecteren & \\
-	1.3.1 & Afstandssensor inlezen & \\
-	1.3.2 & Afstandssensor interpreteren & \\
+	1.3.1 & Afstandssensor inlezen & 25/03 \\
+	1.3.2 & Afstandssensor interpreteren & 15/04\\
 	1.4 & Lichten herkennen & \\
-	1.4.1 & Kleursensor inlezen & \\
-	1.4.2 & Kleursensor interpreteren & \\
-	1.5 & Stoplijn herkennen & 25/03\\
-	1.5.1 & Reflectiesensor inlezen & 25/03\\
-	1.5.2 & Reflectiesensor interpreteren & 25/03\\
-	1.6 & Interface maken & \\
-	1.6.1 & Vizualisatie Labview & \\
+	1.4.1 & Kleursensor inlezen & 8/04\\
+	1.4.2 & Kleursensor interpreteren &  15/04\\
+	1.5 & Interface maken & 29/04 \\
+	1.5.1 & Vizualisatie Labview & 29/04\\
 	\hline
 	2 & Bouw & \\
 	2.1 & CAD model & 25/03\\
 	2.1.1 & Wiel & 25/03\\
-	2.1.2 & Schroef & \\
-	2.1.3 & Kleursensor & \\
-	2.1.4 & Afstandssensor & \\
-	2.1.5 & Reflectiesensor & \\
+	2.1.2 & Printplaat & 25/03 \\
+	2.1.3 & Kleursensor & 25/03\\
+	2.1.4 & Afstandssensor & 25/03\\
+	2.1.5 & Reflectiesensor & 25/03\\
 	2.1.6 & Chassis & 25/03\\
-	2.1.7 & Bevestigingsbeugel motor & \\
-	2.1.8 & Microcontroller & \\
-	2.1.9 & Printplaat & \\
-	2.2 & Chassis printen & \\
+	2.1.7 & Bevestigingsbeugel motor & 25/03\\
+	2.1.8 & Microcontroller & 25/03\\
+	2.2 & Chassis printen & 1/04\\
 	2.3 & Model schetsen & 11/03\\
 	2.4 & Technische tekeningen & 01/04\\
 	2.5 & Onderdelenlijst & 11/03\\
-	2.6 & Berekeningen & \\
-	2.6.1 & Draaicirkel & \\
-	2.7 & Wagentje maken & \\
+	2.6 & Berekeningen & 11/03 \\
+	2.6.1 & Draaicirkel & 15/04\\
+	2.7 & Wagentje maken & 29/04\\
 	\hline
 	3 & Prensentatie & \\
 	3.1 & Tussentijds verslag & 01/04 \\
@@ -139,7 +144,7 @@ De motoren zullen we individueel moeten kunnen aansturen, zodat we het wagentje 
 
 \section{Bijlagen}
 \subsection{Financieel Rapport}
-Hieronder al onze uitgaven tot nu toe. Hierbij moet dde printplaat en de chassis nog gerekend worden. 
+Hieronder al onze uitgaven tot nu toe. Hierbij moet de printplaat en de chassis nog gerekend worden. 
 \begin{tabular}{  l | l | l | l | l }
 	
 	& Product & Aantal & Prijs per stuk & Totaal  \\ \hline
@@ -157,37 +162,61 @@ Hieronder al onze uitgaven tot nu toe. Hierbij moet dde printplaat en de chassis
 	12 & Motorschield IC & 1 & 70 & 70  \\ \hline
 	13 & Male headers 10 & 4 & 5 & 20   \\ \hline
 	14 & Micro Metal Gear Motor 100:1 & 2 & 160.00 & 320 \\ \hline
-	15 & Chassis & 1 & & \\ \hline
-	16 & Printplaat & & &  \\ \hline
+	15 & Chassis & 1 & 135 & 135 \\ \hline
+	16 & Printplaat & 1 & 50 & 50 \\ \hline
 	& Totaal Bedrag & & & 3500\\ 
-	& Bedrag Uitgegeven & & & 3160 \\ 
-	& Overige Bedrag & & & 340
+	& Bedrag Uitgegeven & & & 3345 \\ 
+	& Overige Bedrag & & & 155
 	
 \end{tabular}
 \subsection{Elektronisch circuit}
-elektronische circuit -> verduidelijkt verbinding microcotrollers, sensoren en actuatoren 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=.7\textwidth]{elektrischCircuit1}
-	\caption{Elektronisch circuit}
-	\label{fig:elektrischCircuit}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=.7\textwidth]{elektrischCircuit2}
-	\caption{Elektronisch circuit}
-	\label{fig:elektrischCircuit}
-\end{figure}
-\subsection{Flowchart}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=.9\textwidth]{flowchart auto}
-	\caption{Flowchart}
-	\label{fig:flowchart}
-\end{figure}
-\subsection{Bronnenlijst}
+Tot nu toe hebben we al een deel van het elektrisch circuit aaneengeschakeld om individuele outputs van de lijnsensor te testen op mogelijke afwijkingen van de verwachte output en de reactie van de motor op een bepaalde spanning als input te evalueren, zodat we ongeveer weten hoeveel spanning we moeten aanleggen om 1 motor te laten voortbewegen aan een gewenste snelheid en hiermee in te schatten hoe groot de bocht die hij maakt zal zijn of hoeveel hij zich moet corrigeren indien hij niet meer op het midden van de lijn staat. 
+Voorlopig zijn de RGB-sensor en de afstandssensor nog niet toegevoegd aan de schakeling. Dit zal binnenkort gebeuren.
+De lijnsensor heeft 8 aparte outputs. Deze zijn geconnecteerd aan de analoge ingangen van de NIMyRio - output nr. 1-4 geschakeld aan blok A en nr. 5-8 aan blok B. De Vcc is verbonden met de +5V uitgang en de GND met de AGND van de MyRio.
+Om de motor aan te sturen moeten we een motorshield gebruiken. Dit is een operational amplifier die een elektrisch signaal naar de motor genoeg versterkt zodat het de motor kan aandrijven. De inputsignaal is verbonden met AO0, deze kunnen we via de labview-interface arbitrair aanpassen, wat het testen mogelijk maakt. Voor de test hebben we (voorlopig) de Enable en de Vcc verbonden met dezelfde +5V en pinnen 12 en 13 verbonden met dezelfde AGND die de lijnsensor ook gebruikt. De enable is verbonden met een constante +5V zodat het altijd op ‘aan’ staat. Er vertrekt een diode vanuit AGND richting Out1, zoals vermeld op de datasheet van de motorshield. 
+Een elektrisch signaal (spanning) wordt eerst bepaald via de interface op de computer, daarna doorgezonden naar de MyRio, verlaat de uitgang AO0 en bereikt de In1 (pin 15) van de motorshield. Dit signaal wordt versterkt met gain = +5V (= Vcc - GND) en is dan sterk genoeg om de motor aan te drijven.
+Voorlopig is maar 1 motor geschakeld voor de test. De andere zal analoog geschakeld worden. We zullen alleen de pinnen no. 9-16 gebruiken aangezien we de functie van achteruitrijden niet implementeren.
+De schakeling kan zeker nog veranderen (bv. indien nodig zullen we aparte +5V poorten van de MyRio toekennen aan de motoren en sensoren). Tot nu toe functioneert alles volgens verwachting.
 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.6\textwidth]{elektrischCircuit1}
+	\caption{Elektronisch circuit}
+	\label{fig:elektrischCircuit}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.6\textwidth]{elektrischCircuit2}
+	\caption{Elektronisch circuit}
+	\label{fig:elektrischCircuit}
+\end{figure}
+
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=.7\textwidth]{flowchart auto}
+%	\caption{Flowchart}
+%	\label{fig:flowchart}
+%\end{figure}
+
+%\bibliographystyle{unsrt}
+%\bibliography{bibliografie.bib}
 \section*{Besluit}
+Tot nu toe hebben we de chassis volledig afgewerkt. Daarnaast is de lijnsensor  volledig geprogrammeerd. Het is ons al gelukt om een wiel te laten draaien. We zullen nu vooral nog de andere componenten moeten implementeren en uittesten zodat het parcour goed afgelegd kan worden. Het wagentje moet volledig in elkaar gestoken worden.  
+\begin{thebibliography}{9}
+	
+	\bibitem{pololu} Pololu Robotics and Electronics. (2001). Pololu. Geraadpleegd op 1 april 2022, van  \href{https://www.pololu.com/}{\texttt{https://www.pololu.com/}}
+	
+	\bibitem{myrio} N. (2018, 12 maart). myRIO-1950 User Guide and Specifications - National · PDF fileNI myRIO-1950 User Guide and Specifications. Dokumen.Tips. Geraadpleegd op 1 april 2022, van \href{https://dokumen.tips/documents/myrio-1950-user-guide-and-specifications-national-myrio-1950-user-guide-and.html?page=1} {\texttt{https://dokumen.tips/documents/myrio-1950-user-guide-and-specifications-national-myrio\\-1950-user-guide-and.html?page=1}}
+	
+	
+	\bibitem{motorshield}Circuit Motorshield. (2007). TI. Geraadpleegd op 1 april 2022, van  \href{https://www.ti.com/product/L293D}{\texttt{https://www.ti.com/product/L293D}}
 
-Wat is gelukt, wat niet, wat kunnen we nog verbeteren in de toekomst, moeilijkheden, tevreden?
+
+	%\bibitem{guide} Instruments, N., 2013. UUSER GUIDE AND SPECIFICATIONS NI myRIO-1900. 16th ed. National Instruments, p.32. Geraadpleegd op 1 april 2022, van \href{https://www.ni.com/pdf/manuals/376047c.pdf}{\texttt{https://www.ni.com/pdf/manuals/376047c.pdf}}
+	
+\end{thebibliography}
+
+
+%Wat is gelukt, wat niet, wat kunnen we nog verbeteren in de toekomst, moeilijkheden, tevreden?
 \end{document}
